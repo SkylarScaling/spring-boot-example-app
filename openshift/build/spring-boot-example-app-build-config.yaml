@@ -1,0 +1,31 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: spring-boot-example
+  namespace: acs-test-apps
+  labels:
+    build: spring-boot-example
+spec:
+  runPolicy: Serial
+  output:
+    to:
+      kind: DockerImage
+      name: 'quay.io/sscaling/spring-boot-example-app'
+    pushSecret:
+      name: private-registry
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/SkylarScaling/spring-boot-example-app.git'
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: 'redhat-openjdk18-openshift:1.5'
+  postCommit: {}
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChange: {}
