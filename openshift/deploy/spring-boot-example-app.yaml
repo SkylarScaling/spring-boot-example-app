@@ -26,7 +26,7 @@ spec:
             - containerPort: 8778
               protocol: TCP
           securityContext:
-            privileged: true
+            privileged: false
 
 ---
 kind: Service
